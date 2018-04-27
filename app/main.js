@@ -1,6 +1,6 @@
 import path from 'path';
 import url from 'url';
-import {app, crashReporter, BrowserWindow, Menu} from 'electron';
+import { app, crashReporter, BrowserWindow, Menu } from 'electron';
 
 const isDevelopment = (process.env.NODE_ENV === 'development');
 
@@ -47,10 +47,10 @@ app.on('ready', async () => {
     width: 1150, height: 750,
     webPreferences: {
       webSecurity: false
-    }, 
-    show: false 
+    },
+    show: false
   });
-  
+
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
@@ -79,7 +79,7 @@ app.on('ready', async () => {
       app.on('activate', () => {
         mainWindow.show();
       });
-      
+
       app.on('before-quit', () => {
         forceQuit = true;
       });
@@ -89,7 +89,7 @@ app.on('ready', async () => {
       });
     }
   });
-  
+
 
   if (isDevelopment) {
     // auto-open dev tools
