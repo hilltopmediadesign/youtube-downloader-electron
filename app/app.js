@@ -97,7 +97,7 @@ class App extends Component {
             </Grid>
             <Grid xs={2} style={{ textAlign: 'right' }} item>
               <Tooltip id="tooltip-icon" title="Open download directory">
-                <IconButton>
+                <IconButton tooltip="Open download directory">
                   <FolderOpen onClick={this.openFileExplorer.bind(this)} />
                 </IconButton>
               </Tooltip>

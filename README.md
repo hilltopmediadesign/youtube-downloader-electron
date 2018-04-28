@@ -39,7 +39,7 @@ With help from
  - [x] Electron application icon implementation
 
  ### Future feature ideas
- 
+ - [ ] Offline mode
  - [ ] Indicate video length
  - [ ] Ability to cancel download
  - [ ] Option to download Audio Only

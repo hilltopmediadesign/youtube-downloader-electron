@@ -10,8 +10,17 @@ import thunk from 'redux-thunk';
 
 import electronApp from 'electron';
 import electronConfig from 'electron-config';
+import isOnline from 'is-online';
+
+isOnline().then(online => {
+  console.log(online);
+  //=> true
+});
+
+
 
 const config = new electronConfig();
+console.log(config.store);
 
 const rootReducer = combineReducers({
   loadingBar: loadingBarReducer,
@@ -21,10 +30,10 @@ const rootReducer = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
-if (config.get('downloadPath') == null){
+if (config.get('downloadPath') == null) {
   console.info(`No download config set, applying OS video path ${electronApp.remote.app.getPath('videos')}`);
   config.set('downloadPath', electronApp.remote.app.getPath('videos'));
-}else{
+} else {
   console.info(`Download directory config found : ${config.get('downloadPath')}`);
 }
 
@@ -32,7 +41,7 @@ const rootElement = document.querySelector(document.currentScript.getAttribute('
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
   rootElement
 );
