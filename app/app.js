@@ -17,6 +17,7 @@ import { InputAdornment } from 'material-ui/Input';
 import { shell } from 'electron';
 import electronConfig from 'electron-config';
 import Tooltip from 'material-ui/Tooltip';
+import isOnline from 'is-online';
 
 const config = new electronConfig();
 
@@ -31,89 +32,99 @@ const styles = theme => ({
 
 class App extends Component {
 
-    state = {
-      showSettingsDialog: false,
-      searchTerm: ''
-    };
-
-    openPreviewDialog = () => {
-      this.setState({
-        showSettingsDialog: false
+  constructor() {
+    super();
+    setInterval(() => {
+      isOnline().then(online => {
+        console.log(online);
+        this.props.connectionStatusCreator(online);
       });
-    }
+    }, 5000);
+  }
 
-    closeSettingsDialog = () => {
-      this.setState({
-        showSettingsDialog: false
-      });
-    }
+  state = {
+    showSettingsDialog: false,
+    searchTerm: ''
+  };
 
-    openSettingsDialog = () => {
-      this.setState({
-        showSettingsDialog: true
-      });
-    }
+  openPreviewDialog = () => {
+    this.setState({
+      showSettingsDialog: false
+    });
+  }
 
-    handleSearchChange = (e) => {
-      this.setState({ searchTerm: e.target.value });
-    }
+  closeSettingsDialog = () => {
+    this.setState({
+      showSettingsDialog: false
+    });
+  }
 
-    openFileExplorer = () => {
-      shell.openItem(config.get('downloadPath'));
-    }
+  openSettingsDialog = () => {
+    this.setState({
+      showSettingsDialog: true
+    });
+  }
 
-    render() {
+  handleSearchChange = (e) => {
+    this.setState({ searchTerm: e.target.value });
+  }
 
-      const { classes } = this.props;
+  openFileExplorer = () => {
+    shell.openItem(config.get('downloadPath'));
+  }
 
-      return (
-        <div className={classes.root}>
-          <PreviewDialog show={this.props.preview.showPreview} />
-          <SettingsDialog show={this.state.showSettingsDialog} handleClose={this.closeSettingsDialog.bind(this)} />
+  render() {
 
-          <Grid container spacing={8}>
-            <Grid xs={10} item>
-              <LoadingBar />
-              <TextField style={{ paddingLeft: '25px', width: '500px' }}
-                placeholder="Search YouTube"
-                className={classes.textField}
-                margin="normal"
-                onChange={this.handleSearchChange}
-                onKeyPress={(ev) => {
-                  if (ev.key === 'Enter') {
-                    this.props.onSearch(this.state.searchTerm);
-                    ev.preventDefault();
-                  }
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconSearch />
-                    </InputAdornment>
-                  ),
-                }}
-                autoFocus
-              />
-            </Grid>
-            <Grid xs={2} style={{ textAlign: 'right' }} item>
-              <Tooltip id="tooltip-icon" title="Open download directory">
-                <IconButton tooltip="Open download directory">
-                  <FolderOpen onClick={this.openFileExplorer.bind(this)} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip id="tooltip-icon" title="Settings">
-                <IconButton>
-                  <SettingsIcon onClick={this.openSettingsDialog.bind(this)} />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <PreviewDialog show={this.props.preview.showPreview} />
+        <SettingsDialog show={this.state.showSettingsDialog} handleClose={this.closeSettingsDialog.bind(this)} />
+
+        <Grid container spacing={8}>
+          <Grid xs={10} item>
+            <LoadingBar />
+            <TextField style={{ paddingLeft: '25px', width: '500px' }}
+              placeholder="Search YouTube"
+              className={classes.textField}
+              margin="normal"
+              onChange={this.handleSearchChange}
+              onKeyPress={(ev) => {
+                if (ev.key === 'Enter') {
+                  this.props.onSearch(this.state.searchTerm);
+                  ev.preventDefault();
+                }
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconSearch />
+                  </InputAdornment>
+                ),
+              }}
+              autoFocus
+            />
           </Grid>
-          <Grid container spacing={8}>
-            <VideoList videos={this.props.searchResults} openPreviewDialog={this.openPreviewDialog.bind(this)} />
+          <Grid xs={2} style={{ textAlign: 'right' }} item>
+            <Tooltip id="tooltip-icon" title="Open download directory">
+              <IconButton tooltip="Open download directory">
+                <FolderOpen onClick={this.openFileExplorer.bind(this)} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip id="tooltip-icon" title="Settings">
+              <IconButton>
+                <SettingsIcon onClick={this.openSettingsDialog.bind(this)} />
+              </IconButton>
+            </Tooltip>
           </Grid>
-        </div>
-      );
-    }
+        </Grid>
+        <Grid container spacing={8}>
+          <VideoList videos={this.props.searchResults} openPreviewDialog={this.openPreviewDialog.bind(this)} />
+        </Grid>
+      </div>
+    );
+  }
 }
 
 App.propTypes = {
@@ -130,6 +141,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSearch: (searchTerm) => dispatch(actionCreators.searchYoutube(searchTerm)),
+    connectionStatusCreator : (connectionStatus) =>dispatch(actionCreators.connectionStatusCreator(connectionStatus))
   };
 };
 

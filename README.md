@@ -29,7 +29,7 @@ With help from
  - [react-youtube](https://github.com/troybetz/react-youtube)
  - [simple-youtube-api](https://github.com/HyperCoder2975/simple-youtube-api)
 
-### Features
+### Enhancements
  - [x] Search, Preview and Download Videos
  - [x] Download multiple videos at once
  - [x] Port to [electron-react-redux-boilerplate](https://github.com/jschr/electron-react-redux-boilerplate) for easier builds
@@ -40,8 +40,6 @@ With help from
 
  ### Future feature ideas
  - [ ] Offline mode
- - [ ] Indicate video length
- - [ ] Ability to cancel download
  - [ ] Option to download Audio Only
  - [ ] Option to select video download quality
  - [ ] Display recent searches

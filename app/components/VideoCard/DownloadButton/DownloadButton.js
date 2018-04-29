@@ -11,18 +11,18 @@ import electronApp from 'electron';
 
 
 class DownloadButton extends Component {
-  
-  openVideo = () =>{
+
+  openVideo = () => {
     electronApp.remote.shell.openItem('/Users/vv1552/Movies/WhoIsSecretlyInLoveWithYouPersonalityTest.mp4');
   }
-  
+
   render() {
 
     const { classes } = this.props;
 
     let downloadButton, downloadProgress;
-
     let videoDownloadProgressItem = this.props.videoDownloadProgress.find(x => x.videoId == this.props.videoInfo.id);
+    let hasBeenDownloaded = this.props.downloadHistory.find(x => x.id == this.props.videoInfo.id);
 
     if (videoDownloadProgressItem != null && videoDownloadProgressItem.percentage != 100) {
 
@@ -31,7 +31,7 @@ class DownloadButton extends Component {
       </div>;
 
       downloadButton =
-        <Button size="small"  disabled className={classes.button} variant="flat" color="primary">
+        <Button size="small" disabled className={classes.button} variant="flat" color="primary">
           {videoDownloadProgressItem.percentage} %
         </Button>;
 
@@ -44,9 +44,9 @@ class DownloadButton extends Component {
           initializing...
         </Button>;
 
-    } else if (this.props.videosDownloaded.indexOf(this.props.videoInfo.id) !== -1) {
+    } else if (hasBeenDownloaded != null) {
       downloadButton =
-        <Button size="small" onClick={() => this.openVideo()} className={classes.button} variant="flat" color="primary">
+        <Button disabled size="small" onClick={() => this.openVideo()} className={classes.button} variant="flat" color="primary">
           downloaded&nbsp;
         </Button>;
       downloadProgress = null;
@@ -79,7 +79,8 @@ const mapStateToProps = state => {
   return {
     videosCurrentlyDownloading: state.search.videosCurrentlyDownloading,
     videosDownloaded: state.search.videosDownloaded,
-    videoDownloadProgress: state.search.videoDownloadProgress
+    videoDownloadProgress: state.search.videoDownloadProgress,
+    downloadHistory: state.search.downloadHistory
   };
 };
 

@@ -10,14 +10,6 @@ import thunk from 'redux-thunk';
 
 import electronApp from 'electron';
 import electronConfig from 'electron-config';
-import isOnline from 'is-online';
-
-isOnline().then(online => {
-  console.log(online);
-  //=> true
-});
-
-
 
 const config = new electronConfig();
 console.log(config.store);
