@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import VideoCard from '../VideoCard/VideoCard';
 import Grid from 'material-ui/Grid';
 import VideoIcon from 'material-ui-icons/PlayCircleOutline';
-import ConnectionStatus from './../ConnectionStatus/ConnectionStatus';
 
 class VideoList extends Component {
 
@@ -25,9 +24,6 @@ class VideoList extends Component {
       <Grid style={{ justifyContent: 'center' }} spacing={24} container>
         {cardList}
         {noResults}
-
-        {/* <ConnectionStatus /> */}
-
       </Grid>
     );
   }

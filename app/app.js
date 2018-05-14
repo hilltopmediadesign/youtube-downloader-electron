@@ -19,6 +19,7 @@ import electronConfig from 'electron-config';
 import Tooltip from 'material-ui/Tooltip';
 import isOnline from 'is-online';
 import Switch from 'material-ui/Switch';
+import ConnectionStatus from './components/ConnectionStatus/ConnectionStatus';
 
 const config = new electronConfig();
 
@@ -109,8 +110,8 @@ class App extends Component {
           </Grid>
           <Grid xs={6} style={{ textAlign: 'right' }} item>
 
-            <Tooltip id="tooltip-icon" title="Offline Videos">
-              <Switch
+            <Tooltip id="tooltip-icon" title="Show offline Videos">
+              <Switch checked
                 label="Simple"
               />
             </Tooltip>
@@ -124,6 +125,9 @@ class App extends Component {
               <IconButton>
                 <SettingsIcon onClick={this.openSettingsDialog.bind(this)} />
               </IconButton>
+            </Tooltip>
+            <Tooltip id="tooltip-icon" title="Open download directory">
+              <ConnectionStatus />
             </Tooltip>
           </Grid>
         </Grid>
