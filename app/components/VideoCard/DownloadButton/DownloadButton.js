@@ -44,7 +44,7 @@ class DownloadButton extends Component {
           initializing...
         </Button>;
 
-    } else if (hasBeenDownloaded != null) {
+    } else if (this.props.videosDownloaded.indexOf(this.props.videoInfo.id) !== -1 || hasBeenDownloaded != null) {
       downloadButton =
         <Button disabled size="small" onClick={() => this.openVideo()} className={classes.button} variant="flat" color="primary">
           downloaded&nbsp;

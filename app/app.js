@@ -18,6 +18,7 @@ import { shell } from 'electron';
 import electronConfig from 'electron-config';
 import Tooltip from 'material-ui/Tooltip';
 import isOnline from 'is-online';
+import Switch from 'material-ui/Switch';
 
 const config = new electronConfig();
 
@@ -83,7 +84,7 @@ class App extends Component {
         <SettingsDialog show={this.state.showSettingsDialog} handleClose={this.closeSettingsDialog.bind(this)} />
 
         <Grid container spacing={8}>
-          <Grid xs={10} item>
+          <Grid xs={6} item>
             <LoadingBar />
             <TextField style={{ paddingLeft: '25px', width: '500px' }}
               placeholder="Search YouTube"
@@ -106,7 +107,14 @@ class App extends Component {
               autoFocus
             />
           </Grid>
-          <Grid xs={2} style={{ textAlign: 'right' }} item>
+          <Grid xs={6} style={{ textAlign: 'right' }} item>
+
+            <Tooltip id="tooltip-icon" title="Offline Videos">
+              <Switch
+                label="Simple"
+              />
+            </Tooltip>
+
             <Tooltip id="tooltip-icon" title="Open download directory">
               <IconButton tooltip="Open download directory">
                 <FolderOpen onClick={this.openFileExplorer.bind(this)} />
@@ -141,7 +149,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSearch: (searchTerm) => dispatch(actionCreators.searchYoutube(searchTerm)),
-    connectionStatusCreator : (connectionStatus) =>dispatch(actionCreators.connectionStatusCreator(connectionStatus))
+    connectionStatusCreator: (connectionStatus) => dispatch(actionCreators.connectionStatusCreator(connectionStatus))
   };
 };
 
